@@ -64,3 +64,9 @@ DirectoryIndex index.php
         # RedirectTemp cannot be used instead
     </IfModule>
 </IfModule>
+# HTTPS/non-WWW
+<IfModule mod_rewrite.c>
+	RewriteCond %{HTTPS} off [OR]
+	RewriteCond %{HTTP_HOST} ^www\.uscartera\.com [NC]
+	RewriteRule (.*) https://uscartera.com/$1 [L,R=301]
+</IfModule>
