@@ -57,6 +57,12 @@ RUN a2enmod headers
 # 4. comience con la configuración básica de php
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
+# add supervisor
+RUN mkdir -p /var/log/supervisor
+COPY --chown=root:root ./docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY --chown=root:root ./docker/cron /var/spool/cron/crontabs/root
+RUN chmod 0600 /var/spool/cron/crontabs/root
+
 # 5. composer
 #COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 #RUN chmod +x /usr/bin/composer
@@ -74,21 +80,8 @@ COPY . /var/www/html
 # 9. Cambiando el propietario de los ficheros a www-data:www-data
 RUN chown -R www-data:www-data /var/www/html
 
-# Copy hello-cron file to the cron.d directory
-COPY hello-cron /etc/cron.d/hello-cron
-
-# Give execution rights on the cron job
-RUN chmod 0644 /etc/cron.d/hello-cron
-
-# Apply cron job
-RUN crontab /etc/cron.d/hello-cron
-
-# Create the log file to be able to run tail
-RUN touch /var/log/cron.log
-
 # 10. exponiendo el puerto 80 y 443 del contenedor
 EXPOSE 80 443
 
-# Run the command on container startup
-CMD cron && tail -f /var/log/cron.log
-CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
+#CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
+CMD ["/usr/bin/supervisord"]
