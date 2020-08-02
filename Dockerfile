@@ -62,6 +62,7 @@ RUN mkdir -p /var/log/supervisor
 COPY --chown=root:root ./docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY --chown=root:root ./docker/cron /var/spool/cron/crontabs/root
 RUN chmod 0600 /var/spool/cron/crontabs/root
+RUN chmod +x /var/www/html/docker/scrip.sh
 
 # 5. composer
 #COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
