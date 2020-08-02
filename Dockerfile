@@ -74,6 +74,11 @@ COPY . /var/www/html
 # 9. Cambiando el propietario de los ficheros a www-data:www-data
 RUN chown -R www-data:www-data /var/www/html
 
+COPY ./docker/crontab /etc/crontab
+ADD ./docker/docker-entrypoint.sh /usr/local/bin/init.sh
+RUN chmod +x /usr/local/bin/init.sh
+ENTRYPOINT ["init.sh"]
+
 # 10. exponiendo el puerto 80 y 443 del contenedor
 EXPOSE 80 443
 
