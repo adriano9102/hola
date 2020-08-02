@@ -62,7 +62,6 @@ RUN mkdir -p /var/log/supervisor
 COPY --chown=root:root ./docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY --chown=root:root ./docker/cron /var/spool/cron/crontabs/root
 RUN chmod 0600 /var/spool/cron/crontabs/root
-RUN chmod +x /var/www/html/docker/scrip.sh
 
 # 5. composer
 #COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -77,6 +76,7 @@ COPY . /var/www/html
 
 # 8. dando permisos a la carpeta de storage
 #RUN chmod -R 755 /var/www/html/storage
+RUN chmod +x /var/www/html/docker/scrip.sh
 
 # 9. Cambiando el propietario de los ficheros a www-data:www-data
 RUN chown -R www-data:www-data /var/www/html
