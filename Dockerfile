@@ -74,12 +74,21 @@ COPY . /var/www/html
 # 9. Cambiando el propietario de los ficheros a www-data:www-data
 RUN chown -R www-data:www-data /var/www/html
 
-COPY ./docker/crontab /etc/crontab
-ADD ./docker/docker-entrypoint.sh /usr/local/bin/init.sh
-RUN chmod +x /usr/local/bin/init.sh
-ENTRYPOINT ["init.sh"]
+# Copy hello-cron file to the cron.d directory
+COPY hello-cron /etc/cron.d/hello-cron
+
+# Give execution rights on the cron job
+RUN chmod 0644 /etc/cron.d/hello-cron
+
+# Apply cron job
+RUN crontab /etc/cron.d/hello-cron
+
+# Create the log file to be able to run tail
+RUN touch /var/log/cron.log
 
 # 10. exponiendo el puerto 80 y 443 del contenedor
 EXPOSE 80 443
 
+# Run the command on container startup
+CMD cron && tail -f /var/log/cron.log
 CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
