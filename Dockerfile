@@ -79,7 +79,6 @@ COPY . /var/www/html
 
 # 8. dando permisos a la carpeta de storage
 #RUN chmod -R 755 /var/www/html/storage
-RUN chmod +x /var/www/html/docker/scrip.sh
 
 # 9. Cambiando el propietario de los ficheros a www-data:www-data
 RUN chown -R www-data:www-data /var/www/html
@@ -87,7 +86,9 @@ RUN chown -R www-data:www-data /var/www/html
 # 10. exponiendo el puerto 80 y 443 del contenedor
 EXPOSE 80 443
 
-ENTRYPOINT ["/var/www/html/docker/scrip.sh"]
+ADD ./docker/scrip.sh /usr/local/bin/init.sh
+RUN chmod +x /usr/local/bin/init.sh
+ENTRYPOINT ["init.sh"]
 
 #CMD ["/usr/bin/supervisord"]
 CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
