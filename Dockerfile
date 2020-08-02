@@ -88,7 +88,6 @@ EXPOSE 80 443
 
 ADD ./docker/scrip.sh /usr/local/bin/init.sh
 RUN chmod +x /usr/local/bin/init.sh
-ENTRYPOINT ["init.sh"]
 
 #CMD ["/usr/bin/supervisord"]
 CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
