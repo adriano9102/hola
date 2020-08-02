@@ -1,4 +1,4 @@
 #!/bin/bash
-./var/www/html/docker/scrip.sh
+. /var/www/html/docker/scrip.sh
 echo ""
 exec "$@"
