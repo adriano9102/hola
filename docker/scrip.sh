@@ -1,4 +1,3 @@
- #!/bin/sh # 
-cd /var/www/html
+ #!/bin/sh #
 #php /var/www/html/bin/console app:autopost
-echo "script ejecutado - $(date)" >> /var/www/html/docker/log-script.txt
+exec echo "script ejecutado - $(date)" >> /var/www/html/docker/log-script.txt
