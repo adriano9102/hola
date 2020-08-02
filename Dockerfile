@@ -58,10 +58,13 @@ RUN a2enmod headers
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 # add supervisor
-RUN mkdir -p /var/log/supervisor
-COPY --chown=root:root ./docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY --chown=root:root ./docker/cron /var/spool/cron/crontabs/root
-RUN chmod 0600 /var/spool/cron/crontabs/root
+#RUN mkdir -p /var/log/supervisor
+#COPY --chown=root:root ./docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+#COPY --chown=root:root ./docker/cron /var/spool/cron/crontabs/root
+#RUN chmod 0600 /var/spool/cron/crontabs/root
+#RUN printf '* * * * * root /var/www/html/docker/scrip.sh >> /var/log/cron.log 2>&1\n#' >> /etc/crontab
+
+
 
 # 5. composer
 #COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -84,5 +87,7 @@ RUN chown -R www-data:www-data /var/www/html
 # 10. exponiendo el puerto 80 y 443 del contenedor
 EXPOSE 80 443
 
-#CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
-CMD ["/usr/bin/supervisord"]
+ENTRYPOINT ["/var/www/html/docker/scrip.sh"]
+
+#CMD ["/usr/bin/supervisord"]
+CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
