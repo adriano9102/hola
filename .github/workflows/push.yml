@@ -24,7 +24,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: revenue/precios:${{ github.sha }}
+          tags: adriano9102/hola:${{ github.sha }}
           build-args: |
             arg1=value1
             arg2=value2
