@@ -11,8 +11,10 @@ RUN a2dissite 000-default.conf
 COPY ./docker/symfony.conf /etc/apache2/sites-available/symfony.conf
 COPY ./docker/symfony-ssl.conf /etc/apache2/sites-available/symfony-ssl.conf
 RUN a2ensite symfony.conf && a2ensite symfony-ssl
-
-# 3. habilitar módulos apache
+# 2.1 Copiar los certificado
+COPY ./docker/ssl-cert-domain.pem /etc/ssl/certs/ssl-cert-domain.pem
+COPY ./docker/ssl-cert-private.key /etc/ssl/private/ssl-cert-private.key
+# 2.2 habilitar módulos apache
 RUN a2enmod rewrite
 RUN a2enmod ssl
 RUN a2enmod headers
