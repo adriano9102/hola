@@ -14,6 +14,7 @@ RUN a2ensite symfony.conf && a2ensite symfony-ssl
 # 2.1 Copiar los certificado
 COPY ./docker/ssl-cert-domain.pem /etc/ssl/certs/ssl-cert-domain.pem
 COPY ./docker/ssl-cert-private.key /etc/ssl/private/ssl-cert-private.key
+COPY ./docker/cloudflare.crt /etc/ssl/certs/cloudflare.crt
 # 2.2 habilitar módulos apache
 RUN a2enmod rewrite
 RUN a2enmod ssl
