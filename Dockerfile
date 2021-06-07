@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 FROM php:7.4-apache
 
 ENV TZ 'America/Havana'
@@ -23,12 +22,6 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 # 9. Cambiando el propietario de los ficheros a www-data:www-data
 RUN chown -R www-data:www-data /var/www/html
 
-# 10. exponiendo el puerto 80 y 443 del contenedor
-=======
-FROM wordpress:5.6.0-php7.4-apache
-RUN rm /etc/apt/preferences.d/no-debian-php && apt-get update && apt-get install -y libxml2-dev php-soap && docker-php-ext-install soap
-# 10. exponiendo el puerto 80 y 443 del contenedor..
->>>>>>> 7a1e3b3dc427483bfdcd2f8d8e57244b9e8d34b7
 EXPOSE 80 443
 
 CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
