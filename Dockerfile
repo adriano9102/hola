@@ -19,6 +19,9 @@ RUN a2enmod headers
 # 4. comience con la configuración básica de php
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
+# 6. copiando los archivos
+COPY . /var/www/html
+
 # 9. Cambiando el propietario de los ficheros a www-data:www-data
 RUN chown -R www-data:www-data /var/www/html
 
