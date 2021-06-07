@@ -7,9 +7,10 @@ RUN echo $TZ > /etc/timezone
 RUN apt-get update && apt-get upgrade -y 
 
 # 2. configuracion de apache + raíz del documento
-ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
-RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+RUN a2dissite 000-default.conf
+COPY ./docker/symfony.conf /etc/apache2/sites-available/symfony.conf
+COPY ./docker/symfony-ssl.conf /etc/apache2/sites-available/symfony-ssl.conf
+RUN a2ensite symfony.conf && a2ensite symfony-ssl
 
 # 3. habilitar módulos apache
 RUN a2enmod rewrite
