@@ -24,4 +24,4 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: adriano9102/hola:${{ github.sha }}
+          tags: adriano9102/hola:${{ github.sha }},adriano9102/hola:latest
